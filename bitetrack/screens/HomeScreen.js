@@ -8,7 +8,9 @@ export default function HomeScreen( {navigation} ) {
         style={styles.icon}
         source={require('../assets/homeicon.png')}/>
       <TouchableOpacity
-      onPress={() => navigation.navigate("Camera")}>
+      onPress={() => {
+          navigation.navigate("Camera")
+        }}>
         <Image
         style={styles.trackButton}
         source={require('../assets/trackbutton.png')}/>

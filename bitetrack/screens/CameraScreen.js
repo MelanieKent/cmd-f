@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, Button, Text, Image} from 'react-native';
+import { StyleSheet, SafeAreaView, Button, Text, Image, TouchableOpacity} from 'react-native';
 import { useEffect, useRef, useState} from 'react';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
@@ -19,9 +19,6 @@ export default function CameraScreen() {
     })();
   }, []);
 
-  if (hasCameraPermission) {
-    console.log('has permission')
-  }
   if (hasCameraPermission === undefined) {
     return <Text>Requesting permissions...</Text>
   } else if (!hasCameraPermission) {
@@ -49,8 +46,17 @@ export default function CameraScreen() {
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:iamge/jpg;base64," + photo.base64 }} />
-        {hasMediaLibraryPermission ? <Button title="Save" color="#ff8642" onPress={savePhoto} /> : undefined}
-        <Button title="Discard" color="#ff8642" onPress={() => setPhoto(undefined)} />
+        {hasMediaLibraryPermission ? 
+          <TouchableOpacity onPress={savePhoto}>
+            <Image 
+              style={styles.savepic}
+              source={require('../assets/save.png')}/>
+          </TouchableOpacity> : undefined}
+          <TouchableOpacity onPress={() => setPhoto(undefined)}>
+            <Image 
+              style={styles.discardpic}
+              source={require('../assets/discard.png')}/>
+          </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -58,8 +64,13 @@ export default function CameraScreen() {
     return (
       <Camera type={CameraType.back} style={{height: 780}} styles={styles.container} ref={cameraRef} onCameraReady={() => console.log('camera ready')}>
            <SafeAreaView style={styles.buttonContainer}>
-            <Button title="Take Picture" color="#ff8642" onPress={takePic} />
-           </SafeAreaView>
+        <Image style={styles.preview} source={undefined} />
+        <TouchableOpacity onPress={takePic} style={{}}>
+          <Image 
+          style={styles.takepic}
+          source={require('../assets/takepicture.png')}/>
+        </TouchableOpacity>
+      </SafeAreaView>
       </Camera>
      
   );
@@ -73,11 +84,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
-    backgroundColor: "#303030",
-    alignSelf: 'flex-end'
+    flex: 1,
+    backgroundColor: '#0000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 40
   },
   preview: {
+    backgroundColor: 'transparent',
+    flex: 1,
     alignSelf: 'stretch',
-    flex: 1
+  },
+  takepic: {
+    height: 48,
+    width: 224,
+  },
+  savepic: {
+    height: 44,
+    width: 100,
+    margin: 10
+  },
+  discardpic: {
+    height: 44,
+    width: 152,
+    margin: 10
   }
 });

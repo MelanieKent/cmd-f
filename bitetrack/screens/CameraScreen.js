@@ -54,8 +54,8 @@ export default function CameraScreen() {
           </TouchableOpacity> : undefined}
           <TouchableOpacity onPress={() => setPhoto(undefined)}>
             <Image 
-              style={styles.discardpic}
-              source={require('../assets/discard.png')}/>
+              style={styles.retakepic}
+              source={require('../assets/retake.png')}/>
           </TouchableOpacity>
       </SafeAreaView>
     );
@@ -104,9 +104,9 @@ const styles = StyleSheet.create({
     width: 100,
     margin: 10
   },
-  discardpic: {
+  retakepic: {
     height: 44,
-    width: 152,
+    width: 130,
     margin: 10
   }
 });

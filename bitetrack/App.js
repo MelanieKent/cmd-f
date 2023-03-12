@@ -22,7 +22,7 @@ export default function App() {
         options={{
           headerStyle: {backgroundColor: '#303030'},
           headerTintColor: '#ff8642',
-          title: "home"
+          title: "return home"
         }}
         />
         <Stack.Screen
@@ -31,7 +31,7 @@ export default function App() {
         options={{
           headerStyle: {backgroundColor: '#303030'},
           headerTintColor: '#ff8642',
-          title: "home"
+          title: "return home"
         }}
         />
       </Stack.Navigator>

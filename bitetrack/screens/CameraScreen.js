@@ -1,7 +1,6 @@
 import { StyleSheet, SafeAreaView, Button, Text, Image} from 'react-native';
 import { useEffect, useRef, useState} from 'react';
 import { Camera, CameraType } from 'expo-camera';
-import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 
 export default function CameraScreen() {
@@ -41,12 +40,6 @@ export default function CameraScreen() {
   };
   
   if (photo) {
-    let sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
-    
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         setPhoto(undefined);
@@ -56,17 +49,16 @@ export default function CameraScreen() {
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:iamge/jpg;base64," + photo.base64 }} />
-        <Button title="Share" onPress={sharePic}/> 
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        {hasMediaLibraryPermission ? <Button title="Save" color="#ff8642" onPress={savePhoto} /> : undefined}
+        <Button title="Discard" color="#ff8642" onPress={() => setPhoto(undefined)} />
       </SafeAreaView>
     );
   }
 
     return (
-      <Camera type={CameraType.back} style={{height: 700}} styles={styles.container} ref={cameraRef} onCameraReady={() => console.log('camera ready')}>
+      <Camera type={CameraType.back} style={{height: 780}} styles={styles.container} ref={cameraRef} onCameraReady={() => console.log('camera ready')}>
            <SafeAreaView style={styles.buttonContainer}>
-            <Button title="Take Picture" onPress={takePic} />
+            <Button title="Take Picture" color="#ff8642" onPress={takePic} />
            </SafeAreaView>
       </Camera>
      
@@ -81,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#303030",
     alignSelf: 'flex-end'
   },
   preview: {

@@ -13,7 +13,7 @@ export default function PieScreen( {navigation} ) {
   const [photo, setPhoto] = useState();  
   
   return (
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
     </SafeAreaView>
   );

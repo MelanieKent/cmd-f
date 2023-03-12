@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, Text, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, SafeAreaView, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import { useEffect, useRef, useState} from 'react';
 import { Camera, CameraType } from 'expo-camera';
 import config from "../config.json";
@@ -97,16 +97,16 @@ callGoogleVIsionApi = async (base64) => {
                       "content": base64
                   },
                   features: [
-                      { type: "LABEL_DETECTION", maxResults: 10 },
-                      { type: "LANDMARK_DETECTION", maxResults: 5 },
-                      { type: "FACE_DETECTION", maxResults: 5 },
-                      { type: "LOGO_DETECTION", maxResults: 5 },
-                      { type: "TEXT_DETECTION", maxResults: 5 },
-                      { type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 },
-                      { type: "SAFE_SEARCH_DETECTION", maxResults: 5 },
-                      { type: "IMAGE_PROPERTIES", maxResults: 5 },
-                      { type: "CROP_HINTS", maxResults: 5 },
-                      { type: "WEB_DETECTION", maxResults: 5 }
+                      // { type: "LABEL_DETECTION", maxResults: 3 },
+                      // { type: "LANDMARK_DETECTION", maxResults: 3 },
+                      // { type: "FACE_DETECTION", maxResults: 3 },
+                      // { type: "LOGO_DETECTION", maxResults: 3 },
+                      // { type: "TEXT_DETECTION", maxResults: 3 },
+                      // { type: "DOCUMENT_TEXT_DETECTION", maxResults: 3 },
+                      // { type: "SAFE_SEARCH_DETECTION", maxResults: 3 },
+                      // { type: "IMAGE_PROPERTIES", maxResults: 3 },
+                      // { type: "CROP_HINTS", maxResults: 3 },
+                       { type: "WEB_DETECTION", maxResults: 3 }
                   ],
               }
           ]
@@ -116,6 +116,7 @@ callGoogleVIsionApi = async (base64) => {
   await googleVisionRes.json()
       .then(googleVisionRes => {
           console.log(JSON.stringify(googleVisionRes))
+          //Alert.alert(JSON.stringify(googleVisionRes))
           if (googleVisionRes) {
               return googleVisionRes
           }

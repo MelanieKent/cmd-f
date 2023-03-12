@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   phoinfoheader: {
     height: 90,
     width: 340,
-    bottom: 4
+    bottom: 0
   },
   breakdownimage: {
     height: 300,

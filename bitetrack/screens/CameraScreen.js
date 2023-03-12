@@ -1,9 +1,10 @@
-import { StyleSheet, SafeAreaView, Button, Text, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, SafeAreaView, Text, Image, TouchableOpacity} from 'react-native';
 import { useEffect, useRef, useState} from 'react';
 import { Camera, CameraType } from 'expo-camera';
+import config from "../config.json";
 import * as MediaLibrary from 'expo-media-library';
 
-export default function CameraScreen() {
+export default function CameraScreen( {navigation} ) {
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -37,26 +38,35 @@ export default function CameraScreen() {
   };
   
   if (photo) {
-    let savePhoto = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
+    // let savePhoto = () => {
+    //   MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
+    //     setPhoto(undefined);
+    //   });
+    // };
 
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:iamge/jpg;base64," + photo.base64 }} />
-        {hasMediaLibraryPermission ? 
+        <TouchableOpacity onPress={() => {
+          callGoogleVIsionApi(photo.base64)
+          navigation.navigate("Identify", {imageData: { uri: "data:iamge/jpg;base64," + photo.base64 }})}}>
+            <Image 
+              style={styles.usepic}
+              source={require('../assets/use.png')}/>
+        </TouchableOpacity>
+
+        {/* {hasMediaLibraryPermission ? 
           <TouchableOpacity onPress={savePhoto}>
             <Image 
-              style={styles.savepic}
-              source={require('../assets/save.png')}/>
-          </TouchableOpacity> : undefined}
+              style={styles.usepic}
+              source={require('../assets/use.png')}/>
+          </TouchableOpacity> : undefined} */}
           <TouchableOpacity onPress={() => setPhoto(undefined)}>
             <Image 
               style={styles.retakepic}
               source={require('../assets/retake.png')}/>
           </TouchableOpacity>
+
       </SafeAreaView>
     );
   }
@@ -75,6 +85,44 @@ export default function CameraScreen() {
      
   );
 }
+
+
+callGoogleVIsionApi = async (base64) => {
+  let googleVisionRes = await fetch(config.googleCloud.api + config.googleCloud.apiKey, {
+      method: 'POST',
+      body: JSON.stringify({
+          "requests": [
+              {
+                  "image": {
+                      "content": base64
+                  },
+                  features: [
+                      { type: "LABEL_DETECTION", maxResults: 10 },
+                      { type: "LANDMARK_DETECTION", maxResults: 5 },
+                      { type: "FACE_DETECTION", maxResults: 5 },
+                      { type: "LOGO_DETECTION", maxResults: 5 },
+                      { type: "TEXT_DETECTION", maxResults: 5 },
+                      { type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 },
+                      { type: "SAFE_SEARCH_DETECTION", maxResults: 5 },
+                      { type: "IMAGE_PROPERTIES", maxResults: 5 },
+                      { type: "CROP_HINTS", maxResults: 5 },
+                      { type: "WEB_DETECTION", maxResults: 5 }
+                  ],
+              }
+          ]
+      })
+  });
+
+  await googleVisionRes.json()
+      .then(googleVisionRes => {
+          console.log(JSON.stringify(googleVisionRes))
+          if (googleVisionRes) {
+              return googleVisionRes
+          }
+      }).catch((error) => { console.log(error) })
+}
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -96,10 +144,10 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   takepic: {
-    height: 48,
-    width: 224,
+    height: 44,
+    width: 200,
   },
-  savepic: {
+  usepic: {
     height: 44,
     width: 100,
     margin: 10

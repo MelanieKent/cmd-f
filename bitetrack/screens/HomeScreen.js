@@ -15,7 +15,7 @@ export default function HomeScreen( {navigation} ) {
         source={require('../assets/trackbutton.png')}/>
       </TouchableOpacity>
       <TouchableOpacity
-      onPress={() => navigation.navigate("Pie")}>
+      onPress={() => navigation.navigate("Calendar")}>
         <Image 
         style={styles.historyButton}
         source={require('../assets/historybutton.png')}/>
@@ -32,18 +32,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    width: 340,
+    width: 343,
     height: 266,
     margin: 34,
   },
   trackButton: {
-    width: 180,
-    height: 60,
+    width: 150,
+    height: 50,
     margin: 24,
   },
   historyButton: {
-    width: 205,
-    height: 60,
+    width: 200,
+    height: 50,
     margin: 18,
   }
 });

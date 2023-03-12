@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    width: 320,
-    height: 250,
+    width: 340,
+    height: 266,
     margin: 34,
   },
   trackButton: {

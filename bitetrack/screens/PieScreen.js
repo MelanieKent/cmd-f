@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { StyleSheet, SafeAreaView} from 'react-native';
-import { RNCamera } from 'react-native-camera';
 
-export default function CameraScreen( {navigation} ) {
+export default function PieScreen( {navigation} ) {
     return (
       <SafeAreaView style={styles.container}>
-        
+
     </SafeAreaView>
   );
 }

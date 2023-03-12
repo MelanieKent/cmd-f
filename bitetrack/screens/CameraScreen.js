@@ -1,16 +1,28 @@
 import * as React from 'react';
-import { StyleSheet, SafeAreaView, Alert} from 'react-native';
-import { RNCamera } from 'react-native-camera';
+import { StyleSheet, SafeAreaView} from 'react-native';
+import { useEffect, useRef, useState } from 'react-native';
+import { Camera } from 'expo-camera';
+import { shareAsync } from 'expo-sharing';
+import * as MediaLibrary from 'expo-media-library';
 
 export default function CameraScreen( {navigation} ) {
+  let cameraRef = useRef();
+  const [hasCameraPermission, setHasCameraPermission] = useState();
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const cameraPermission = await Camera.requestCameraPermissionsAsync();
+      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+      setHasCameraPermission(cameraPermission.status === "granted");
+      setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
+
+    })();
+  }, []);
+
     return (
       <SafeAreaView style={styles.container}>
-        <RNCamera
-        style={{flex: 1, alignItems: 'center '}}
-        ref={ref => {
-          this.camera = ref
-        }}
-        />
+
     </SafeAreaView>
   );
 }
